@@ -10,3 +10,13 @@
     EnlaceDePago: genera el link de pago con el monto correcto para el cliente
     Pago: registra el pago cuando llega la confirmación
     Notificacion: avisa al cliente cuando su cuota entra en mora
+3 DIAGRAMA DE CLASES 
+    El diagrama se encuentra subido en modo de imagen
+4 Sistema de préstamo de dinero
+    Atributos de calidad SEGURIDAD y FIABILIDAD
+        porque se maneja plata y datos sensibles del cliente asi que no puede fallar ni dejar entrar a cualquiera un error, 
+        aca significa perdida de dinero o de confianza no solo una mala experiencia.
+    Atributos sacrificados USABILIDAD y EFICIENCIA
+        sacrifico un poco la usabilidad porque hay mas pasos y verificaciones, no es tan directo de usar y tambien la eficiencia
+        porque las validaciones de seguridad hacen que sea mas lento pero me parece un precio justo a cambio de tener un sistema 
+        seguro y que funcione siempre que se necesite
