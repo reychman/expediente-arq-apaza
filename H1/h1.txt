@@ -3,3 +3,10 @@
     Operador: quiere generar enlaces de pago y ver el estado de cada cliente
     Supervisor: quiere condonar mora en casos especiales y ver el panorama general de la cartera
     Sistema de pagos externo: recibe el enlace y confirma si el pago se concreto
+2 MODULOS
+    Cliente: guarda los datos del cliente y su plan de cuotas
+    Cuota: representa cada pago mensual y su estado (vigente, vencida, en mora, pagada)
+    CalculoDeMora: calcula si una cuota está en mora y cuánto se debe
+    EnlaceDePago: genera el link de pago con el monto correcto para el cliente
+    Pago: registra el pago cuando llega la confirmación
+    Notificacion: avisa al cliente cuando su cuota entra en mora
