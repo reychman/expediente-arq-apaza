@@ -1,0 +1,5 @@
+1 ACTORES
+    Cliente: quiere pagar sus cuotas facilmente y enterarse cuando entra en mora
+    Operador: quiere generar enlaces de pago y ver el estado de cada cliente
+    Supervisor: quiere condonar mora en casos especiales y ver el panorama general de la cartera
+    Sistema de pagos externo: recibe el enlace y confirma si el pago se concreto
