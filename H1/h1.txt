@@ -20,3 +20,4 @@
         sacrifico un poco la usabilidad porque hay mas pasos y verificaciones, no es tan directo de usar y tambien la eficiencia
         porque las validaciones de seguridad hacen que sea mas lento pero me parece un precio justo a cambio de tener un sistema 
         seguro y que funcione siempre que se necesite
+preparando equipo
