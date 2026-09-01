@@ -1,0 +1,22 @@
+Cliente
+Cuota
+CalculoDeMora
+EnlaceDePago
+Pago
+Notificacion
+
+1) clase gorda
+
+    generarEnlace() // calcula el monto y arma el link (esto es negocio)
+    validarEnlace() // chequea que el enlace no esté vencido ni manipulado (esto es seguridad)
+2) cajas de UNA responsabilidad
+
+    CalculadoraDeMontoEnlace — negocio: calcula cuánto se debe cobrar..  cuota + mora si corresponde
+    GeneradorDeEnlace — integracion: arma el link y se comunica con la pasarela de pago externa
+    ValidadorDeEnlace — seguridad: valida que el enlace no esté vencido ni sea manipulado
+    GestorDeEnlacePago — coordinador flaco: solo llama a las tres de arriba en orden, no calcula ni valida nada por si mismo
+3) departamentos que pedirían cambios
+
+    Negocio/Cobranza pediria cambios si cambia la formula de calculo del monto por ejemplo, nueva política de descuentos
+    Sistemas/Integraciones pediria cambios si cambia el proveedor de la pasarela de pago o el formato del link
+    Seguridad pediria cambios si cambian las reglas de validación por ejemplo, tiempo de expiración del enlace o el metodo de firma
