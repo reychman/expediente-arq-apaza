@@ -1,0 +1,18 @@
+Paso 1 
+    Tomé mi RF4 y me pregunté qué interfaz firma cada rol
+    operador y supervisor, cada uno con sus permisos distintos
+    el operador registra clientes y genera enlaces de pago
+    el supervisor condona mora y audita la cartera
+
+Paso 2
+    Apliqué la regla: si un rol tuviera que fingir un metodo, el contrato esta gordo
+    en vez de una sola interfaz con todos los metodos de gestion, se arma una interfaz por cada capacidad especifica, 
+    para que ningún rol tenga que fingir un metodo que no usa
+
+Paso 3
+    Nombré las interfaces como capacidades, no como roles
+    IRegistradorDeClientes, IGeneradorDeEnlaces, ICondonadorDeMora, IAuditorDeCartera.
+
+Paso 4
+    Conecté cada rol solo con las interfaces que realmente usa
+    Operador firma las dos primeras, Supervisor las dos últimas — sin cruces ni métodos de más.

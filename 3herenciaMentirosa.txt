@@ -35,7 +35,9 @@ Parte 2 como se veria antes el hijo mentiroso
         public override void Anular()
             => throw new NotSupportedException("El pago por QR no admite anulación");
     }
+
 Parte 3 arreglo del contrato minimo con la interfaz aparte
+
     abstract class EnlaceDePago {
         public abstract void Generar(decimal monto);
         public abstract void Validar();     // esto SÍ lo cumplen todos
