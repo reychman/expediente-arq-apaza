@@ -1,0 +1,55 @@
+Cliente
+Cuota
+CalculoDeMora
+EnlaceDePago
+Pago
+Notificacion
+
+Parte 1
+
+    el hijo que no puede cumplir todo lo que promete el padre -> candidato es EnlaceDePago 
+    todo enlace de pago se puede anular por ejemplo, si el cliente se arrepiente o hay un error
+
+    tu clase base prometería un método Anular() para todos los tipos de enlace. El problema aparece 
+    con el enlace por QR: una vez que el cliente escanea y paga por QR, ese pago no se puede anular 
+    ni revertir desde el sistema
+    este caso es especial — el QR es el caso especial que rompe la promesa del padre
+
+Parte 2 como se veria antes el hijo mentiroso
+
+    abstract class EnlaceDePago {
+    public abstract void Generar(decimal monto);
+    public abstract void Validar();
+    public abstract void Anular();   // ← la promesa que no todos cumplen
+    }
+
+    class EnlaceTarjeta : EnlaceDePago {
+        public override void Anular() { /* reversión bancaria */ }
+    }
+
+    class EnlaceTransferencia : EnlaceDePago {
+        public override void Anular() { /* cancela transferencia pendiente */ }
+    }
+
+    class EnlaceQR : EnlaceDePago {
+        public override void Anular()
+            => throw new NotSupportedException("El pago por QR no admite anulación");
+    }
+Parte 3 arreglo del contrato minimo con la interfaz aparte
+    abstract class EnlaceDePago {
+        public abstract void Generar(decimal monto);
+        public abstract void Validar();     // esto SÍ lo cumplen todos
+    }
+
+    interface IAnulable {
+        void Anular();                      // contrato aparte, opcional
+    }
+
+    class EnlaceTarjeta : EnlaceDePago, IAnulable { ... }
+    class EnlaceTransferencia : EnlaceDePago, IAnulable { ... }
+    class EnlaceQR : EnlaceDePago { ... }   // NO firma lo que no puede cumplir
+
+    foreach (var enlace in enlaces) {
+        if (enlace is IAnulable a) a.Anular();
+        else Console.WriteLine("este enlace no admite anulación");
+    }
