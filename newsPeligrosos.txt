@@ -1,0 +1,32 @@
+1) Dónde tu negocio fabrica sus detalles?
+
+Notificacion.enviarAviso() — para avisarle al cliente que entró en mora, esta clase 
+    necesita mandar el mensaje por algún medio (correo, WhatsApp, SMS). Si adentro de 
+    ese método hacés new CorreoSmtp() o new AvisoWhatsApp(), tu regla de negocio queda 
+    atornillada a ese canal específico.
+EnlaceDePago.generarEnlace() — para generar el link de pago, esta clase necesita 
+    comunicarse con una pasarela de pago externa. Si adentro hacés new PasarelaDePagoQR(),
+    tu regla de negocio queda atornillada a ese proveedor específico.
+
+2)Dibujar el contrato que lo libera
+
+interface ICanalDeAviso {
++enviar(mensaje: string)
+}
+
+interface IPasarelaDePago {
++generarLink(monto: double): string
++confirmarPago(idEnlace: int): bool
+}
+
+Notificacion ya no fabrica su canal, lo recibe por constructor. 
+EnlaceDePago ya no fabrica su pasarela, la recibe por constructor.
+
+3)Podría probar esta regla sin el detalle real conectado?
+
+Con el contrato de por medio, se puede hacer un CanalDeAvisoFalso que solo imprima 
+el mensaje en la consola, sin enviar un WhatsApp real. También se puede crear una 
+PasarelaDePagoFalsa que simule la confirmación del pago sin conectarse a ningún 
+proveedor real. Así, se puede probar que la regla de negocio (Notificacion, EnlaceDePago)
+ funciona bien, sin depender de que el correo o la pasarela estén funcionando
+ 
