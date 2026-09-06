@@ -1,0 +1,48 @@
+S — Responsabilidad Única
+    Antes: en mi primer diagrama, la clase EnlaceDePago tenía tres trabajos mezclados: calculaba montos, generaba el enlace 
+        comunicándose con la pasarela externa, y validaba su seguridad.
+    Por que no funcionaba: tres departamentos distintos —negocio, integraciones y seguridad— podían pedir un cambio sobre 
+        esa misma clase. Cualquier modificación en una de esas tareas obligaba a abrir una clase que también manejaba las 
+        otras dos, con el riesgo de romper algo que no tenía nada que ver con el cambio pedido.
+    Qué se corrigió: en el diagrama final, EnlaceDePago quedó reducida a lo que le corresponde como negocio (generar y validar)
+         y la comunicación con el proveedor externo se sacó a una interfaz aparte, IPasarelaDePago. Cada responsabilidad quedó en
+         su propia caja.
+
+O — Abierto/Cerrado
+    Antes: CalculoDeMora tenía el método calcularMora() sin ningún parámetro que indicara el tipo de cliente, lo cual escondía un 
+        switch: "si es normal, cobra tanto; si es preferencial, cobra tanto menos".
+    Por que no funcionaba: cada vez que el negocio agregara un plan nuevo de cliente, había que abrir esa clase y agregar un caso
+         más al switch, arriesgando romper el cálculo de los planes que ya andaban bien.
+    Que se corrigió: en el diagrama final, aparece la interfaz IReglaMora con tres implementaciones (ReglaMoraNormal, 
+        ReglaMoraPreferencial, ReglaMoraCorporativa). CalculoDeMora ahora recibe la regla por constructor y no sabe cuál es
+        Si mañana se necesita un plan nuevo, nace una clase más que implementa IReglaMora, y CalculoDeMora no se toca.
+
+L — Sustitución de Liskov
+    Antes: EnlaceDePago era una sola clase con el método validarEnlace() (y en el planteamiento original, también se pensaba 
+        anular() para todos los enlaces por igual).
+    Por que no funcionaba: un enlace de pago por QR no puede anularse una vez confirmado, a diferencia de tarjeta o transferencia. 
+        Si EnlaceDePago prometía anular() para todos, cualquier código genérico que recorriera los enlaces y llamara anular() 
+        iba a fallar justo al llegar al QR, en tiempo de ejecución.
+    Que se corrigió: en el diagrama final, EnlaceDePago pasó a ser abstracta con solo lo que todos garantizan (generarEnlace, 
+        validarEnlace). La capacidad de anular se separó en la interfaz IAnulable, que solo implementan EnlaceTarjeta y 
+        EnlaceTransferencia. EnlaceQR hereda de EnlaceDePago pero no firma IAnulable, porque no puede cumplir esa promesa.
+
+I — Segregación de Interfaces
+    Antes: en mi primer diagrama, ni siquiera existían los roles Operador y Supervisor como clases — el RF4 estaba descrito en el 
+        H1, pero no traducido a interfaces.
+    Por que no funcionaba: si se hubiera armado una sola interfaz con todos los métodos de gestión juntos (registrar, 
+        generar enlace, condonar mora, auditar), cualquier rol que la implementara tendría que fingir métodos que no le 
+        corresponden, por ejemplo un Operador con un condonarMora() que nunca usa.
+    Que se corrigió: en el diagrama final aparecen cuatro interfaces chicas y específicas: IRegistradorDeClientes e 
+        IGeneradorDeEnlaces para el Operador, ICondonadorDeMora e IAuditorDeCartera para el Supervisor. Cada rol firma solo las
+        capacidades que realmente ejerce.
+
+D — Inversión de Dependencias
+    Antes: Notificacion tenía enviarAviso() sin ningún contrato de por medio, y EnlaceDePago tenía generarEnlace() también sin 
+        contrato — ambas probablemente fabricaban directamente su detalle externo (un correo, una pasarela de pago) adentro del método.
+    Por que no funcionaba: la regla de negocio quedaba atornillada a un proveedor específico. Si mañana cambiaba el canal de aviso
+        (de correo a WhatsApp) o el proveedor de pagos, había que abrir esas clases para modificarlas. Además, era imposible 
+        probar esa lógica sin tener el proveedor real conectado.
+    Que se corrigió: en el diagrama final aparecen las interfaces ICanalDeAviso e IPasarelaDePago. Notificacion y EnlaceDePago 
+        ahora dependen de esos contratos (flechas de uso ..>), no de una implementación concreta. Pueden recibir cualquier canal 
+        o pasarela que cumpla el contrato, real o de prueba.
