@@ -1,0 +1,49 @@
+1) Switch eterno, en el calculoDeMora, aqui se debe calcular cuanto se debe cobrar de mas por atraso, varia de cliente en cliente
+    se tendria algo asi
+        switch (tipoCliente) {
+            case "normal":       return montoBase * 0.05m;
+            case "preferencial":  return montoBase * 0.02m;
+            case "corporativo":   return montoBase * 0.08m;
+        }   
+Ese switch es un problema porque cada vez que el negocio inventa un plan nuevo (por ejemplo "plan estudiante" o "plan VIP")
+tenés que abrir la clase CalculoDeMora y agregar un case más. Eso es justo lo que Abierto/Cerrado quiere evitar
+
+2) Diseñar la interfaz que lo cierra
+la interfaz quedaria algo asi
+    interface IReglaMora {
+        decimal Calcular(decimal montoBase, int diasAtraso);
+    }
+
+    class ReglaMoraNormal : IReglaMora {
+        public decimal Calcular(decimal montoBase, int diasAtraso) => montoBase * 0.05m;
+    }
+
+    class ReglaMoraPreferencial : IReglaMora {
+        public decimal Calcular(decimal montoBase, int diasAtraso) => montoBase * 0.02m;
+    }
+
+    class ReglaMoraCorporativa : IReglaMora {
+        public decimal Calcular(decimal montoBase, int diasAtraso) => montoBase * 0.08m;
+    }
+3) Conectar con la interfaz
+    class CalculoDeMora {
+        private IReglaMora _regla;
+
+        public CalculoDeMora(IReglaMora regla) {
+            _regla = regla;
+        }
+
+        public decimal CalcularMora(decimal montoBase, int diasAtraso) {
+            return _regla.Calcular(montoBase, diasAtraso);
+        }
+    }
+
+CalculoDeMora ya no sabe ni le importa qué tipo de cliente es — solo le pasan una regla y la aplica
+Toda la decisión de "cuál regla usar" queda afuera, en quien lo construye
+
+4) Qué clase nace y qué clase no se toca?
+Cuando el negocio pida un plan nuevo (por ejemplo "plan estudiante" con 3% de mora):
+
+Nace: una clase nueva, ReglaMoraEstudiante : IReglaMora, con su propio cálculo.
+No se toca: ni CalculoDeMora, ni ReglaMoraNormal, ni ReglaMoraPreferencial
+ni ReglaMoraCorporativa — nada de lo que ya funciona y ya fue probado se modifica
