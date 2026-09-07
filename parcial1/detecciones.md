@@ -12,3 +12,5 @@ I(segregacion de intefaces)
         La interfaz obliga a todos los empleados a tener AutorizarVentaControlada, AjustarPrecio y VerLibroDeControlados
         pero el Cajero no puede hacer ninguna de las tres y solo lanzaria excepciones
 D(inversion de dependencias)
+    GestorDePedidos esta atado a implementaciones especificas BaseDeDatosMySql y CorreoSmtp en lugar de trabajar con interfaces
+    este metodo deberia recibir las dependencias por inyeccion no crearlas internamente
