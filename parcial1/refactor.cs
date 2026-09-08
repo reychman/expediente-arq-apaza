@@ -1,4 +1,5 @@
 // refactor Apaza Carballo Reychman Cristopher
+//cura 1 segrecacion de interfaces
 namespace Parcial1.Farmacia
 
 public interface IEmpleadoDeFarmacia
