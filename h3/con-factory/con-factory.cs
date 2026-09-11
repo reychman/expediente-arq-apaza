@@ -1,8 +1,40 @@
-public interface IAnulable
+public class Cliente
 {
-    bool Anular();
+    public int IdCliente { get; set; }
+    public string Nombre { get; set; } = "";
+    public string Documento { get; set; } = "";
+    public string Plan { get; set; } = "";
 }
 
+public class Cuota
+{
+    public int IdCuota { get; set; }
+    public DateTime FechaVencimiento { get; set; }
+    public decimal Monto { get; set; }
+    public string Estado { get; set; } = "vigente";
+
+    public void CambiarEstado(string nuevoEstado)
+    {
+        Estado = nuevoEstado;
+    }
+}
+
+public class CalculoDeMora
+{
+    private const decimal TasaDeInteresMoratorio = 0.03m;
+    private const int DiasDeGracia = 5;
+
+    public int IdCalculo { get; set; }
+    public int DiasAtraso { get; set; }
+
+    public decimal CalcularMora(decimal montoBase, int diasAtraso)
+    {
+        int diasCobrables = Math.Max(0, diasAtraso - DiasDeGracia);
+
+        return montoBase * TasaDeInteresMoratorio * diasCobrables;
+    }
+}
+// aplicando factory
 public abstract class EnlaceDePago
 {
     public int IdEnlace { get; protected set; }
@@ -18,91 +50,163 @@ public abstract class EnlaceDePago
     }
 
     public abstract string GenerarEnlace();
-    public virtual bool ValidarEnlace() => !string.IsNullOrWhiteSpace(Url);
-}
 
-public class EnlaceTarjeta : EnlaceDePago, IAnulable
-{
-    public EnlaceTarjeta(decimal montoTotal) : base(montoTotal) { }
-
-    public override string GenerarEnlace()
+    public virtual bool ValidarEnlace()
     {
-        Url = $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}";
-        return Url;
-    }
-
-    public bool Anular()
-    {
-        Console.WriteLine($"[TARJETA] Enlace {IdEnlace} anulado.");
-        return true;
+        return !string.IsNullOrWhiteSpace(Url);
     }
 }
 
-public class EnlaceTransferencia : EnlaceDePago, IAnulable
+public class EnlaceTarjeta : EnlaceDePago
 {
-    public EnlaceTransferencia(decimal montoTotal) : base(montoTotal) { }
+    public EnlaceTarjeta(decimal montoTotal)
+        : base(montoTotal)
+    {
+    }
 
     public override string GenerarEnlace()
     {
-        Url = $"https://pagos.miempresa.bo/transferencia/{IdEnlace}";
+        Url =
+            $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}";
+
         return Url;
     }
+}
 
-    public bool Anular()
+public class EnlaceTransferencia : EnlaceDePago
+{
+    public EnlaceTransferencia(decimal montoTotal)
+        : base(montoTotal)
     {
-        Console.WriteLine($"[TRANSFERENCIA] Enlace {IdEnlace} anulado.");
-        return true;
+    }
+
+    public override string GenerarEnlace()
+    {
+        Url =
+            $"https://pagos.miempresa.bo/transferencia/{IdEnlace}";
+
+        return Url;
     }
 }
 
 public class EnlaceQR : EnlaceDePago
 {
-    public EnlaceQR(decimal montoTotal) : base(montoTotal) { }
+    public EnlaceQR(decimal montoTotal)
+        : base(montoTotal)
+    {
+    }
 
     public override string GenerarEnlace()
     {
-        Url = $"https://pagos.miempresa.bo/qr/{IdEnlace}";
+        Url =
+            $"https://pagos.miempresa.bo/qr/{IdEnlace}";
+
         return Url;
     }
 }
-
-public static class FabricaDeEnlaces
+//fin
+public class Pago
 {
-    public static EnlaceDePago Crear(string metodoPago, decimal monto) => metodoPago switch
-    {
-        "tarjeta"       => new EnlaceTarjeta(monto),
-        "transferencia" => new EnlaceTransferencia(monto),
-        "qr"            => new EnlaceQR(monto),              
-        _ => throw new ArgumentException($"Metodo de pago desconocido: {metodoPago}")
-    };
+    public int IdPago { get; set; }
+    public DateTime FechaPago { get; set; }
+    public decimal MontoPagado { get; set; }
+    public string MetodoPago { get; set; } = "";
 }
 
-public static class DemoFabricaDeEnlaces
+public abstract class FabricaEnlaceDePago
+{
+    public abstract EnlaceDePago CrearEnlace(decimal monto);
+}
+
+public class FabricaTarjeta : FabricaEnlaceDePago
+{
+    public override EnlaceDePago CrearEnlace(decimal monto)
+    {
+        return new EnlaceTarjeta(monto);
+    }
+}
+
+public class FabricaTransferencia : FabricaEnlaceDePago
+{
+    public override EnlaceDePago CrearEnlace(decimal monto)
+    {
+        return new EnlaceTransferencia(monto);
+    }
+}
+
+public class FabricaQR : FabricaEnlaceDePago
+{
+    public override EnlaceDePago CrearEnlace(decimal monto)
+    {
+        return new EnlaceQR(monto);
+    }
+}
+
+public static class DemoFactory
 {
     public static void Correr()
     {
-        var enlace1 = FabricaDeEnlaces.Crear("tarjeta", 350.00m);
-        Console.WriteLine($"[ENLACE] {enlace1.GetType().Name} generado: {enlace1.GenerarEnlace()} - {enlace1.MontoTotal:0.00} Bs");
-        var enlace2 = FabricaDeEnlaces.Crear("qr", 120.00m);
-        Console.WriteLine($"[ENLACE] {enlace2.GetType().Name} generado: {enlace2.GenerarEnlace()} - {enlace2.MontoTotal:0.00} Bs");
-        var enlace3 = FabricaDeEnlaces.Crear("transferencia", 500.00m);
-        Console.WriteLine($"[ENLACE] {enlace3.GetType().Name} generado: {enlace3.GenerarEnlace()} - {enlace3.MontoTotal:0.00} Bs");
-        Console.WriteLine("---");
-        if (enlace1 is IAnulable anulableTarjeta)
-            anulableTarjeta.Anular();
-        if (enlace2 is IAnulable anulableQr)
-            anulableQr.Anular();
-        else
-            Console.WriteLine("[QR] Este enlace no se puede anular (no implementa IAnulable).");
-        Console.WriteLine("---");
-        try
+        var cliente = new Cliente
         {
-            FabricaDeEnlaces.Crear("bitcoin", 10.00m);
-        }
-        catch (ArgumentException ex)
+            IdCliente = 1,
+            Nombre = "Noelia Paz",
+            Documento = "9871234",
+            Plan = "Plan Salud"
+        };
+
+        var cuota = new Cuota
         {
-            Console.WriteLine($"[ERROR] {ex.Message}");
-        }
-        Console.WriteLine("El metodo nuevo entro tocando UN solo lugar. El Operador ni se entero.");
+            IdCuota = 10,
+            FechaVencimiento = DateTime.Now.AddDays(-12),
+            Monto = 350.00m,
+            Estado = "vencida"
+        };
+
+        var calculo = new CalculoDeMora
+        {
+            IdCalculo = 1,
+            DiasAtraso = 12
+        };
+
+        decimal mora = calculo.CalcularMora(
+            cuota.Monto,
+            calculo.DiasAtraso
+        );
+
+        Console.WriteLine(
+            $"[MORA] Cliente {cliente.Nombre} — " +
+            $"cuota {cuota.IdCuota} — " +
+            $"mora calculada: {mora:0.00} Bs"
+        );
+
+        decimal montoTotal = cuota.Monto + mora;
+
+        FabricaEnlaceDePago fabrica =
+            new FabricaTarjeta();
+
+        EnlaceDePago enlace =
+            fabrica.CrearEnlace(montoTotal);
+
+        string url = enlace.GenerarEnlace();
+
+        Console.WriteLine(
+            $"[ENLACE] {url} — " +
+            $"por {enlace.MontoTotal:0.00} Bs"
+        );
+
+        var pago = new Pago
+        {
+            IdPago = 1,
+            FechaPago = DateTime.Now,
+            MontoPagado = enlace.MontoTotal,
+            MetodoPago = "tarjeta"
+        };
+
+        cuota.CambiarEstado("pagada");
+
+        Console.WriteLine(
+            $"[PAGO] {pago.IdPago} registrado — " +
+            $"cuota {cuota.IdCuota} ahora esta {cuota.Estado}"
+        );
     }
 }
