@@ -1,0 +1,15 @@
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\bin\Debug\net8.0\con-factory.exe
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\bin\Debug\net8.0\con-factory.deps.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\bin\Debug\net8.0\con-factory.runtimeconfig.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\bin\Debug\net8.0\con-factory.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\bin\Debug\net8.0\con-factory.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.AssemblyInfoInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.AssemblyInfo.cs
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.csproj.CoreCompileInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.sourcelink.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\refint\con-factory.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\con-factory.genruntimeconfig.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-factory\obj\Debug\net8.0\ref\con-factory.dll

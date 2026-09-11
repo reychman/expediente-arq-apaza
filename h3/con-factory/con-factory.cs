@@ -76,3 +76,33 @@ public static class FabricaDeEnlaces
         _ => throw new ArgumentException($"Metodo de pago desconocido: {metodoPago}")
     };
 }
+
+public static class DemoFabricaDeEnlaces
+{
+    public static void Correr()
+    {
+        var enlace1 = FabricaDeEnlaces.Crear("tarjeta", 350.00m);
+        Console.WriteLine($"[ENLACE] {enlace1.GetType().Name} generado: {enlace1.GenerarEnlace()} - {enlace1.MontoTotal:0.00} Bs");
+        var enlace2 = FabricaDeEnlaces.Crear("qr", 120.00m);
+        Console.WriteLine($"[ENLACE] {enlace2.GetType().Name} generado: {enlace2.GenerarEnlace()} - {enlace2.MontoTotal:0.00} Bs");
+        var enlace3 = FabricaDeEnlaces.Crear("transferencia", 500.00m);
+        Console.WriteLine($"[ENLACE] {enlace3.GetType().Name} generado: {enlace3.GenerarEnlace()} - {enlace3.MontoTotal:0.00} Bs");
+        Console.WriteLine("---");
+        if (enlace1 is IAnulable anulableTarjeta)
+            anulableTarjeta.Anular();
+        if (enlace2 is IAnulable anulableQr)
+            anulableQr.Anular();
+        else
+            Console.WriteLine("[QR] Este enlace no se puede anular (no implementa IAnulable).");
+        Console.WriteLine("---");
+        try
+        {
+            FabricaDeEnlaces.Crear("bitcoin", 10.00m);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"[ERROR] {ex.Message}");
+        }
+        Console.WriteLine("El metodo nuevo entro tocando UN solo lugar. El Operador ni se entero.");
+    }
+}
