@@ -1,0 +1,15 @@
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\bin\Debug\net8.0\con-singleton.exe
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\bin\Debug\net8.0\con-singleton.deps.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\bin\Debug\net8.0\con-singleton.runtimeconfig.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\bin\Debug\net8.0\con-singleton.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\bin\Debug\net8.0\con-singleton.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.AssemblyInfoInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.AssemblyInfo.cs
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.csproj.CoreCompileInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.sourcelink.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\refint\con-singleton.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\con-singleton.genruntimeconfig.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-singleton\obj\Debug\net8.0\ref\con-singleton.dll
