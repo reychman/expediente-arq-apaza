@@ -1,9 +1,7 @@
 public class GeneradorDeEnlacesPago
 {
     private static GeneradorDeEnlacesPago? _instancia;
-
     private int _ultimoIdTransaccion = 0;
-
     public static GeneradorDeEnlacesPago Instancia
     {
         get
@@ -14,14 +12,12 @@ public class GeneradorDeEnlacesPago
     }
 
     private GeneradorDeEnlacesPago() { }  
-
     public (int idTransaccion, string claveDeSeguridad) EmitirDatosDeEnlace(double montoTotal, int idCliente)
     {
         _ultimoIdTransaccion++;
         string claveDeSeguridad = GenerarClaveDeSeguridad(_ultimoIdTransaccion, montoTotal, idCliente);
         return (_ultimoIdTransaccion, claveDeSeguridad);
     }
-
     private string GenerarClaveDeSeguridad(int idTransaccion, double montoTotal, int idCliente)
     {
         string base_ = $"{idTransaccion}-{montoTotal:0.00}-{idCliente}";
