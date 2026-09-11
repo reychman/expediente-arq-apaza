@@ -2,6 +2,17 @@ public interface IAviso
 {
     void Enviar(string mensaje, string destinatario);
 }
+
+public class AvisoCuaderno : IAviso
+{
+    public void Enviar(string mensaje, string destinatario)
+        => Console.WriteLine($"[CUADERNO] {mensaje} — pegado para {destinatario}");
+}
+public class AvisoWhatsApp : IAviso
+{
+    public void Enviar(string mensaje, string destinatario)
+        => Console.WriteLine($"[WHATSAPP] 📱 {mensaje} — enviado a {destinatario}");
+}
 public class AvisoLlamada : IAviso
 {
     public void Enviar(string mensaje, string destinatario)
