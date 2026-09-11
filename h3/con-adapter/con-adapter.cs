@@ -34,3 +34,26 @@ public class AdaptadorPasarelaBanco : IPasarelaDePago
         return estado == "APROBADO";
     }
 }
+
+public class GeneradorDeEnlaces
+{
+    private readonly IPasarelaDePago _pasarela;
+
+    public GeneradorDeEnlaces(IPasarelaDePago pasarela)
+        => _pasarela = pasarela;
+
+    public void EmitirEnlace(decimal monto)
+    {
+        string enlace = _pasarela.GenerarLink(monto);
+        Console.WriteLine($"[ENLACE] Generado: {enlace} — por {monto:0.00} Bs");
+    }
+
+    public void VerificarPago(string idEnlace)
+    {
+        bool aprobado = _pasarela.ConfirmarPago(idEnlace);
+        Console.WriteLine(aprobado
+            ? $"[PAGO] {idEnlace} — APROBADO"
+            : $"[PAGO] {idEnlace} — RECHAZADO");
+    }
+}
+
