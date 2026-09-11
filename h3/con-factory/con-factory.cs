@@ -65,3 +65,14 @@ public class EnlaceQR : EnlaceDePago
         return Url;
     }
 }
+
+public static class FabricaDeEnlaces
+{
+    public static EnlaceDePago Crear(string metodoPago, decimal monto) => metodoPago switch
+    {
+        "tarjeta"       => new EnlaceTarjeta(monto),
+        "transferencia" => new EnlaceTransferencia(monto),
+        "qr"            => new EnlaceQR(monto),              
+        _ => throw new ArgumentException($"Metodo de pago desconocido: {metodoPago}")
+    };
+}
