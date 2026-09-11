@@ -57,3 +57,16 @@ public class GeneradorDeEnlaces
     }
 }
 
+public static class DemoAdapterPasarela
+{
+    public static void Correr()
+    {
+        var operador = new GeneradorDeEnlaces(new AdaptadorPasarelaBanco());
+        operador.EmitirEnlace(150.00m);
+        operador.VerificarPago("TXN-15000-a1b2c3");
+        Console.WriteLine("---");
+        operador.VerificarPago("TXN-99900-999xyz");
+        Console.WriteLine("---");
+        operador.VerificarPago("TXN-30000-ERRabc"); 
+    }
+}
