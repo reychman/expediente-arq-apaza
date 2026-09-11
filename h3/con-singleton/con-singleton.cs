@@ -1,30 +1,44 @@
-public sealed class ConfiguracionDeMora
+public class GeneradorDeEnlacesPago
 {
-    private static readonly ConfiguracionDeMora _instancia = new();
-    public static ConfiguracionDeMora Instancia => _instancia;
-
-    public decimal TasaDeInteresMoratorio { get; private set; } = 0.03m; // 3% mensual
-    public int DiasDeGracia { get; private set; } = 5;
-
-    private ConfiguracionDeMora() { }
-
-    public void ActualizarReglas(decimal nuevaTasa, int nuevosDiasDeGracia)
+    private static GeneradorDeEnlacesPago? _instancia;
+    private int _ultimoIdTransaccion = 0;
+    public static GeneradorDeEnlacesPago Instancia
     {
-        TasaDeInteresMoratorio = nuevaTasa;
-        DiasDeGracia = nuevosDiasDeGracia;
+        get
+        {
+            if (_instancia == null) _instancia = new GeneradorDeEnlacesPago();
+            return _instancia;                     
+        }
+    }
+
+    private GeneradorDeEnlacesPago() { }  
+    public (int idTransaccion, string claveDeSeguridad) EmitirDatosDeEnlace(double montoTotal, int idCliente)
+    {
+        _ultimoIdTransaccion++;
+        string claveDeSeguridad = GenerarClaveDeSeguridad(_ultimoIdTransaccion, montoTotal, idCliente);
+        return (_ultimoIdTransaccion, claveDeSeguridad);
+    }
+    private string GenerarClaveDeSeguridad(int idTransaccion, double montoTotal, int idCliente)
+    {
+        string base_ = $"{idTransaccion}-{montoTotal:0.00}-{idCliente}";
+        return Convert.ToHexString(
+            System.Security.Cryptography.SHA256.HashData(
+                System.Text.Encoding.UTF8.GetBytes(base_)));
     }
 }
-public static class DemoConfiguracionDeMora
+
+public static class DemoGeneradorDeEnlacesPago
 {
     public static void Correr()
     {
-        var configEnCalculoDeMora = ConfiguracionDeMora.Instancia;
-        var configEnPanelDeSupervisor = ConfiguracionDeMora.Instancia;
-        Console.WriteLine($"[CONFIG] Tasa actual: {configEnCalculoDeMora.TasaDeInteresMoratorio:P0}, dias de gracia: {configEnCalculoDeMora.DiasDeGracia}");
-        Console.WriteLine($"¿Son la MISMA instancia? {ReferenceEquals(configEnCalculoDeMora, configEnPanelDeSupervisor)}");
-        Console.WriteLine("---");
-        configEnPanelDeSupervisor.ActualizarReglas(0.05m, 3);
-        Console.WriteLine($"[CONFIG] Tasa vista desde CalculoDeMora tras el cambio: {configEnCalculoDeMora.TasaDeInteresMoratorio:P0}, dias de gracia: {configEnCalculoDeMora.DiasDeGracia}");
-        Console.WriteLine("Si fueran dos instancias distintas, este ultimo valor NO habria cambiado, y el calculo de mora podria estar mal.");
+        var generadorDesdeOperadorA = GeneradorDeEnlacesPago.Instancia;
+        var generadorDesdeOperadorB = GeneradorDeEnlacesPago.Instancia;
+
+        var enlaceA = generadorDesdeOperadorA.EmitirDatosDeEnlace(150.00, idCliente: 12);
+        var enlaceB = generadorDesdeOperadorB.EmitirDatosDeEnlace(300.00, idCliente: 45);
+
+        Console.WriteLine($"Enlace A -> id {enlaceA.idTransaccion}, clave {enlaceA.claveDeSeguridad[..12]}...");
+        Console.WriteLine($"Enlace B -> id {enlaceB.idTransaccion}, clave {enlaceB.claveDeSeguridad[..12]}...");
+        Console.WriteLine($"Mismo emisor: {ReferenceEquals(generadorDesdeOperadorA, generadorDesdeOperadorB)}");
     }
 }

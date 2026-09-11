@@ -1,1 +1,1 @@
-﻿DemoConfiguracionDeMora.Correr();
+﻿DemoGeneradorDeEnlacesPago.Correr();
