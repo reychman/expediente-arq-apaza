@@ -15,3 +15,22 @@ public class PasarelaBanco
         return "APROBADO";
     }
 }
+
+public class AdaptadorPasarelaBanco : IPasarelaDePago
+{
+    private readonly PasarelaBanco _banco = new();
+    public string GenerarLink(decimal monto)
+    {
+        int montoEnCentavos = (int)(monto * 100);
+        string codigoDeTransaccion = _banco.CrearCobro(montoEnCentavos);
+        return codigoDeTransaccion;
+    }
+
+    public bool ConfirmarPago(string idEnlace)
+    {
+        string estado = _banco.ConsultarEstado(idEnlace);
+        if (estado != "APROBADO" && estado != "RECHAZADO")
+            throw new InvalidOperationException($"El banco devolvio un estado desconocido: {estado}");
+        return estado == "APROBADO";
+    }
+}
