@@ -9,11 +9,11 @@ public class GeneradorDeEnlacesPago
         get
         {
             if (_instancia == null) _instancia = new GeneradorDeEnlacesPago();
-            return _instancia;                      // el mismo emisor para TODO el sistema
+            return _instancia;                     
         }
     }
 
-    private GeneradorDeEnlacesPago() { }             // el CANDADO: nadie mas hace new
+    private GeneradorDeEnlacesPago() { }  
 
     public (int idTransaccion, string claveDeSeguridad) EmitirDatosDeEnlace(double montoTotal, int idCliente)
     {
@@ -24,7 +24,6 @@ public class GeneradorDeEnlacesPago
 
     private string GenerarClaveDeSeguridad(int idTransaccion, double montoTotal, int idCliente)
     {
-        // combina id + monto + cliente para que la clave quede atada a ESOS datos exactos
         string base_ = $"{idTransaccion}-{montoTotal:0.00}-{idCliente}";
         return Convert.ToHexString(
             System.Security.Cryptography.SHA256.HashData(
