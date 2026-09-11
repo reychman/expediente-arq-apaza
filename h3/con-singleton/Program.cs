@@ -1,1 +1,1 @@
-﻿DemoGeneradorDeEnlacesPago.Correr();
+﻿DemoSingleton.Correr();
