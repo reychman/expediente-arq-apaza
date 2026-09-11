@@ -1,0 +1,15 @@
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\bin\Debug\net8.0\con-builder.exe
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\bin\Debug\net8.0\con-builder.deps.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\bin\Debug\net8.0\con-builder.runtimeconfig.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\bin\Debug\net8.0\con-builder.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\bin\Debug\net8.0\con-builder.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.AssemblyInfoInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.AssemblyInfo.cs
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.csproj.CoreCompileInputs.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.sourcelink.json
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\refint\con-builder.dll
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.pdb
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\con-builder.genruntimeconfig.cache
+C:\Users\Cristopher\Desktop\Cristopher\UAB\arquitectura de sistemas\expediente-arq-apaza\h3\con-builder\obj\Debug\net8.0\ref\con-builder.dll
