@@ -13,6 +13,9 @@ public class Cliente
     public decimal PorcentajeDescuento { get; set; }
 }
 
+
+// INICIO DEL PATRÓN BUILDER
+
 public class ClienteBuilder
 {
     private readonly Cliente _cliente = new();
@@ -29,7 +32,8 @@ public class ClienteBuilder
         return this;
     }
 
-    public ClienteBuilder ConDocumento(string documento)
+    public ClienteBuilder ConDocumento(
+        string documento)
     {
         _cliente.Documento = documento;
         return this;
@@ -44,18 +48,23 @@ public class ClienteBuilder
     public ClienteBuilder ConCantidadDeCuotas(
         int cantidadDeCuotas)
     {
-        _cliente.CantidadDeCuotas = cantidadDeCuotas;
+        _cliente.CantidadDeCuotas =
+            cantidadDeCuotas;
+
         return this;
     }
 
     public ClienteBuilder ConMontoPorCuota(
         decimal montoPorCuota)
     {
-        _cliente.MontoPorCuota = montoPorCuota;
+        _cliente.MontoPorCuota =
+            montoPorCuota;
+
         return this;
     }
 
-    public ClienteBuilder ConDiaDePago(int diaDePago)
+    public ClienteBuilder ConDiaDePago(
+        int diaDePago)
     {
         _cliente.DiaDePago = diaDePago;
         return this;
@@ -65,6 +74,7 @@ public class ClienteBuilder
         decimal porcentajeDescuento)
     {
         _cliente.TieneDescuento = true;
+
         _cliente.PorcentajeDescuento =
             porcentajeDescuento;
 
@@ -73,37 +83,39 @@ public class ClienteBuilder
 
     public Cliente Construir()
     {
-        if (string.IsNullOrWhiteSpace(_cliente.Nombre))
+        if (string.IsNullOrWhiteSpace(
+            _cliente.Nombre))
         {
             throw new InvalidOperationException(
-                "El cliente debe tener nombre."
-            );
+                "El cliente debe tener nombre.");
         }
 
-        if (string.IsNullOrWhiteSpace(_cliente.Documento))
+        if (string.IsNullOrWhiteSpace(
+            _cliente.Documento))
         {
             throw new InvalidOperationException(
-                "El cliente debe tener documento."
-            );
+                "El cliente debe tener documento.");
         }
 
-        if (string.IsNullOrWhiteSpace(_cliente.Plan))
+        if (string.IsNullOrWhiteSpace(
+            _cliente.Plan))
         {
             throw new InvalidOperationException(
-                "El cliente debe tener un plan."
-            );
+                "El cliente debe tener un plan.");
         }
 
         if (_cliente.CantidadDeCuotas <= 0)
         {
             throw new InvalidOperationException(
-                "La cantidad de cuotas debe ser mayor a cero."
-            );
+                "La cantidad de cuotas debe ser mayor a cero.");
         }
 
         return _cliente;
     }
 }
+
+// FIN DEL PATRÓN BUILDER
+
 
 public class Cuota
 {
@@ -131,11 +143,11 @@ public class CalculoDeMora
         int diasAtraso)
     {
         int diasCobrables =
-            Math.Max(0, diasAtraso - DiasDeGracia);
+            Math.Max(
+                0,
+                diasAtraso - DiasDeGracia);
 
-        return montoBase *
-               TasaDeInteresMoratorio *
-               diasCobrables;
+        return montoBase * TasaDeInteresMoratorio * diasCobrables;
     }
 }
 
@@ -146,10 +158,14 @@ public class EnlaceDePago
     public decimal MontoTotal { get; set; }
     public DateTime FechaGeneracion { get; set; }
 
-    public string GenerarEnlace(string metodoPago)
+    public string GenerarEnlace(
+        string metodoPago)
     {
-        IdEnlace = Random.Shared.Next(1000, 9999);
-        FechaGeneracion = DateTime.Now;
+        IdEnlace =
+            new Random().Next(1000, 9999);
+
+        FechaGeneracion =
+            DateTime.Now;
 
         Url = metodoPago switch
         {
@@ -163,8 +179,7 @@ public class EnlaceDePago
                 $"https://pagos.miempresa.bo/qr/{IdEnlace}",
 
             _ => throw new ArgumentException(
-                $"Metodo de pago desconocido: {metodoPago}"
-            )
+                $"Metodo de pago desconocido: {metodoPago}")
         };
 
         return Url;
@@ -183,16 +198,27 @@ public static class DemoBuilder
 {
     public static void Correr()
     {
-        var cliente = new ClienteBuilder()
-            .ConId(1)
-            .ConNombre("Noelia Paz")
-            .ConDocumento("9871234")
-            .ConPlan("Plan Salud")
-            .ConCantidadDeCuotas(12)
-            .ConMontoPorCuota(350.00m)
-            .ConDiaDePago(5)
-            .ConDescuento(10)
-            .Construir();
+        // Uso del Builder
+        var cliente =
+            new ClienteBuilder()
+                .ConId(1)
+                .ConNombre("Noelia Paz")
+                .ConDocumento("9871234")
+                .ConPlan("Plan Salud")
+                .ConCantidadDeCuotas(12)
+                .ConMontoPorCuota(350.00m)
+                .ConDiaDePago(5)
+                .ConDescuento(10)
+                .Construir();
+
+        Console.WriteLine(
+            $"[BUILDER] Cliente construido: " +
+            $"{cliente.Nombre}");
+
+        Console.WriteLine(
+            $"[PLAN] {cliente.Plan} — " +
+            $"{cliente.CantidadDeCuotas} cuotas de " +
+            $"{cliente.MontoPorCuota:0.00} Bs");
 
         var cuota = new Cuota
         {
@@ -209,30 +235,19 @@ public static class DemoBuilder
             DiasAtraso = 12
         };
 
-        decimal mora = calculo.CalcularMora(
-            cuota.Monto,
-            calculo.DiasAtraso
-        );
-
-        Console.WriteLine(
-            $"[CLIENTE] {cliente.Nombre} — " +
-            $"documento {cliente.Documento}"
-        );
-
-        Console.WriteLine(
-            $"[PLAN] {cliente.Plan} — " +
-            $"{cliente.CantidadDeCuotas} cuotas de " +
-            $"{cliente.MontoPorCuota:0.00} Bs"
-        );
+        decimal mora =
+            calculo.CalcularMora(
+                cuota.Monto,
+                calculo.DiasAtraso);
 
         Console.WriteLine(
             $"[MORA] Mora calculada: " +
-            $"{mora:0.00} Bs"
-        );
+            $"{mora:0.00} Bs");
 
         var enlace = new EnlaceDePago
         {
-            MontoTotal = cuota.Monto + mora
+            MontoTotal =
+                cuota.Monto + mora
         };
 
         string url =
@@ -240,14 +255,14 @@ public static class DemoBuilder
 
         Console.WriteLine(
             $"[ENLACE] {url} — " +
-            $"por {enlace.MontoTotal:0.00} Bs"
-        );
+            $"por {enlace.MontoTotal:0.00} Bs");
 
         var pago = new Pago
         {
             IdPago = 1,
             FechaPago = DateTime.Now,
-            MontoPagado = enlace.MontoTotal,
+            MontoPagado =
+                enlace.MontoTotal,
             MetodoPago = "tarjeta"
         };
 
@@ -256,7 +271,6 @@ public static class DemoBuilder
         Console.WriteLine(
             $"[PAGO] {pago.IdPago} registrado — " +
             $"cuota {cuota.IdCuota} ahora esta " +
-            $"{cuota.Estado}"
-        );
+            $"{cuota.Estado}");
     }
 }
