@@ -34,7 +34,11 @@ public class CalculoDeMora
         return montoBase * TasaDeInteresMoratorio * diasCobrables;
     }
 }
-// aplicando factory
+
+
+
+// INICIO DEL PATRÓN FACTORY METHOD
+
 public abstract class EnlaceDePago
 {
     public int IdEnlace { get; protected set; }
@@ -66,9 +70,7 @@ public class EnlaceTarjeta : EnlaceDePago
 
     public override string GenerarEnlace()
     {
-        Url =
-            $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}";
-
+        Url = $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}";
         return Url;
     }
 }
@@ -82,9 +84,7 @@ public class EnlaceTransferencia : EnlaceDePago
 
     public override string GenerarEnlace()
     {
-        Url =
-            $"https://pagos.miempresa.bo/transferencia/{IdEnlace}";
-
+        Url = $"https://pagos.miempresa.bo/transferencia/{IdEnlace}";
         return Url;
     }
 }
@@ -98,19 +98,9 @@ public class EnlaceQR : EnlaceDePago
 
     public override string GenerarEnlace()
     {
-        Url =
-            $"https://pagos.miempresa.bo/qr/{IdEnlace}";
-
+        Url = $"https://pagos.miempresa.bo/qr/{IdEnlace}";
         return Url;
     }
-}
-//fin
-public class Pago
-{
-    public int IdPago { get; set; }
-    public DateTime FechaPago { get; set; }
-    public decimal MontoPagado { get; set; }
-    public string MetodoPago { get; set; } = "";
 }
 
 public abstract class FabricaEnlaceDePago
@@ -140,6 +130,16 @@ public class FabricaQR : FabricaEnlaceDePago
     {
         return new EnlaceQR(monto);
     }
+}
+// FIN DEL PATRÓN FACTORY
+
+
+public class Pago
+{
+    public int IdPago { get; set; }
+    public DateTime FechaPago { get; set; }
+    public decimal MontoPagado { get; set; }
+    public string MetodoPago { get; set; } = "";
 }
 
 public static class DemoFactory
@@ -181,11 +181,10 @@ public static class DemoFactory
 
         decimal montoTotal = cuota.Monto + mora;
 
-        FabricaEnlaceDePago fabrica =
-            new FabricaTarjeta();
+        // Uso del Factory Method
+        FabricaEnlaceDePago fabrica = new FabricaTarjeta();
 
-        EnlaceDePago enlace =
-            fabrica.CrearEnlace(montoTotal);
+        EnlaceDePago enlace = fabrica.CrearEnlace(montoTotal);
 
         string url = enlace.GenerarEnlace();
 
