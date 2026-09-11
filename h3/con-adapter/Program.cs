@@ -1,1 +1,1 @@
-﻿DemoAdapterPasarela.Correr();
+﻿DemoAdapter.Correr();
