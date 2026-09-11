@@ -49,3 +49,31 @@ public class EnlaceDePago
         return Url;
     }
 }
+public class Pago
+{
+    public int IdPago { get; set; }
+    public DateTime FechaPago { get; set; }
+    public decimal MontoPagado { get; set; }
+    public string MetodoPago { get; set; } = "";
+}
+
+public static class DemoBase
+{
+    public static void Correr()
+    {
+        var cliente = new Cliente { IdCliente = 1, Nombre = "Noelia Paz", Documento = "9871234", Plan = "Plan Salud" };
+        var cuota = new Cuota { IdCuota = 10, FechaVencimiento = DateTime.Now.AddDays(-12), Monto = 350.00m, Estado = "vencida" };
+
+        var calculo = new CalculoDeMora { IdCalculo = 1, DiasAtraso = 12 };
+        decimal mora = calculo.CalcularMora(cuota.Monto, calculo.DiasAtraso);
+        Console.WriteLine($"[MORA] Cliente {cliente.Nombre} — cuota {cuota.IdCuota} — mora calculada: {mora:0.00} Bs");
+
+        var enlace = new EnlaceDePago { MontoTotal = cuota.Monto + mora };
+        string url = enlace.GenerarEnlace("tarjeta");
+        Console.WriteLine($"[ENLACE] {url} — por {enlace.MontoTotal:0.00} Bs");
+
+        var pago = new Pago { IdPago = 1, FechaPago = DateTime.Now, MontoPagado = enlace.MontoTotal, MetodoPago = "tarjeta" };
+        cuota.CambiarEstado("pagada");
+        Console.WriteLine($"[PAGO] {pago.IdPago} registrado — cuota {cuota.IdCuota} ahora esta {cuota.Estado}");
+    }
+}
