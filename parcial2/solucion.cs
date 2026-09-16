@@ -56,7 +56,7 @@ public class RegistroVencidos : ISuscriptorVencimiento
 {
     public void Notificar(Socio socio)
     {
-        Console.WriteLine($"[RegistroVencidos] Se agrego a {socio.Nombre} a la lista de vencidos.");
+        Console.WriteLine($"[RegistroVencidos] Se agrego a {socio.Nombre} a la lista de vencidos");
     }
 }
 
@@ -64,6 +64,30 @@ public class PantallaRecepcion : ISuscriptorVencimiento
 {
     public void Notificar(Socio socio)
     {
-        Console.WriteLine($"[Recepcion] Aviso en pantalla: {socio.Nombre} debe renovar.");
+        Console.WriteLine($"[Recepcion] Aviso en pantalla: {socio.Nombre} debe renovar");
+    }
+}
+
+public class ModuloPromociones : ISuscriptorVencimiento
+{
+    public void Notificar(Socio socio)
+    {
+        Console.WriteLine($"[Promociones] Le ofrecemos a {socio.Nombre} un 15% de descuento por renovar hoy");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        var gestor = new GestorVencimientos();
+
+        gestor.Suscribir(new NotificadorWhatsApp());
+        gestor.Suscribir(new RegistroVencidos());
+        gestor.Suscribir(new PantallaRecepcion());
+        gestor.Suscribir(new ModuloPromociones());
+
+        var socio = new Socio("Carlos Mamani","70011122", DateTime.Today);
+        gestor.AvisarVencimiento(socio);
     }
 }
