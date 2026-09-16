@@ -43,3 +43,27 @@ public class GestorVencimientos
         }
     }
 }
+
+public class NotificadorWhatsApp : ISuscriptorVencimiento
+{
+    public void Notificar(Socio socio)
+    {
+        Console.WriteLine($"[WhatsApp] Hola {socio.Nombre}, tu membresia vencio el {socio.FechaVencimiento:dd/MM/yyyy}.");
+    }
+}
+
+public class RegistroVencidos : ISuscriptorVencimiento
+{
+    public void Notificar(Socio socio)
+    {
+        Console.WriteLine($"[RegistroVencidos] Se agrego a {socio.Nombre} a la lista de vencidos.");
+    }
+}
+
+public class PantallaRecepcion : ISuscriptorVencimiento
+{
+    public void Notificar(Socio socio)
+    {
+        Console.WriteLine($"[Recepcion] Aviso en pantalla: {socio.Nombre} debe renovar.");
+    }
+}
