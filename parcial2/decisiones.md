@@ -16,3 +16,5 @@ con adapter se arma una clase que traduce mi dominio, montos en bs, nombres de s
 si no lo aplico y el proveedor cambia el proximo anio por subir la comision, voy a tener qye reescribir el codigo de negocio entero en vez de solo reemplazar el adpatador.
 
 P2.3 Conexion con SOLID (implemetacion de la primera situacion)
+La implementación de Observer que hice en mi archivo soluciones.cs, rescatariamos el principio de abierto/cerrado, se ve concretamente en la clase GestorVencimientos el metodo AvisarVencimiento recorre la lista de IsuscriptoVencimiento sin conocer las clases concretas(NotificadorWhatsapp, RegistroVencidos, etc).
+cuando agrego ModuloPromociones solo llamo a gestor.Suscribir(new ModuloPromociones()) en el main, no modifico ni una linea de GestorVencimientos ni de las notificaciones que ya existian
