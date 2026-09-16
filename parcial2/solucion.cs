@@ -21,3 +21,25 @@ public class Socio
         FechaVencimiento = fechaVencimiento;
     }
 }
+using System.Collections.Generic;
+
+public class GestorVencimientos
+{
+    private readonly List<ISuscriptorVencimiento> _suscriptores =
+        new List<ISuscriptorVencimiento>();
+    public void Suscribir(ISuscriptorVencimiento suscriptor)
+    {
+        _suscriptores.Add(suscriptor);
+    }
+    public void Desuscribir(ISuscriptorVencimiento suscriptor)
+    {
+        _suscriptores.Remove(suscriptor);
+    }
+    public void AvisarVencimiento(Socio socio)
+    {
+        foreach (var suscriptor in _suscriptores)
+        {
+            suscriptor.Notificar(socio);
+        }
+    }
+}
