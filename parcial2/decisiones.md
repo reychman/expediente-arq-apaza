@@ -14,3 +14,5 @@ situacion 3 Integración con pasarela de pago externa (adapter)
 El SDK del proveedor no se puede modificar, sus metodos estan en ingles, reciben montos en centavos y tokens que el dominio no maneja, si mi codigo de negocio llama directo al sdk toda logica del gimnacio queda pegada a ese proveedor especifico
 con adapter se arma una clase que traduce mi dominio, montos en bs, nombres de socio y membresia  y lo que pide el sdk centavos, tokens, metodos en ingles. mi codigo de negocio solo conoce mi propia interfaz de pago, nunca al SDK directamente
 si no lo aplico y el proveedor cambia el proximo anio por subir la comision, voy a tener qye reescribir el codigo de negocio entero en vez de solo reemplazar el adpatador.
+
+P2.3 Conexion con SOLID (implemetacion de la primera situacion)
