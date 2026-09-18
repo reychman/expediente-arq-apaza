@@ -6,3 +6,5 @@ ya sea SMS correo o por whatsaap, segun la preferencia del cliente
 pero antes de tomar esta decision la forma mas directa de resolver esto era con un if/else  dentro mi clase de notificacion
 que revisara el canal y tomara la decision de como enviar. 
 El riesgo que es esta decision del como avisar el canal quedaria repetida si en el futuro otro modulo del sistema tambien necesita notificar al cliente, por ejemplo un recordatorio antes de vencimiento. cada copia del if/else es un lugar mas donde el canal nuevo se puede olvidar agregar, produciendo un aviso que nunca sale y un cliente que entraria en mora sin saberlo.
+DECISION
+estamos aplicando el patron factory porque se define un contrato IcanalDeAviso con el metodo Enviar(mensaje,destinario)
