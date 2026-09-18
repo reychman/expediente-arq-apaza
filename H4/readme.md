@@ -23,7 +23,7 @@ Aqui muestro el zoom adentro, con el patron factory  que llegarian a ser mis can
 flowchart TD
     Operador["👤 Operador<br/>(genera enlaces de pago)"]
     Supervisor["👤 Supervisor<br/>(condona mora)"]
-    subgrafo sistema["💳 PANEL DE MORA Y ENLACES DE PAGO<br/><br/>Calcula mora, genera enlaces<br/>y registra los pagos que llegan"]
+    subgraph sistema["💳 PANEL DE MORA Y ENLACES DE PAGO<br/><br/>Calcula mora, genera enlaces<br/>y registra los pagos que llegan"]
         Web["🌐 Aplicación web<br/>C# / ASP.NET<br/><br/>Pantallas de generación<br/>de enlaces y condonación"]
         Logica["⚙️ Lógica de negocio<br/>C#<br/><br/>Cálculo de mora, cuotas,<br/>enlaces<br/><br/>(SOLID y patrones)"]
         BD[("🗄️ Base de datos<br/>SQL<br/><br/>Clientes, cuotas, pagos")]
