@@ -21,13 +21,13 @@ Parte A Nivel 2 contenedores (el zoom adentro del sistema)
 Aqui muestro el zoom adentro, con el patron factory  que llegarian a ser mis canales de aviso.
 ```mermaid
 flowchart TD
-    Operador["👤 Operador<br/>(genera enlaces de pago)"]
-    Supervisor["👤 Supervisor<br/>(condona mora)"]
-    subgraph sistema["💳 PANEL DE MORA Y ENLACES DE PAGO<br/><br/>Calcula mora, genera enlaces<br/>y registra los pagos que llegan"]
+    Operador["👤 Operador"]
+    Supervisor["👤 Supervisor"]
+    subgraph Sistema["💳 PANEL DE MORA Y ENLACES DE PAGO"]
         Web["🌐 Aplicación web<br/>C# / ASP.NET<br/><br/>Pantallas de generación<br/>de enlaces y condonación"]
         Logica["⚙️ Lógica de negocio<br/>C#<br/><br/>Cálculo de mora, cuotas,<br/>enlaces<br/><br/>(SOLID y patrones)"]
         BD[("🗄️ Base de datos<br/>SQL<br/><br/>Clientes, cuotas, pagos")]
-        Notificaciones["📧 Servicio de notificaciones<br/>(externo — SMS/correo/WhatsApp)"]
+        Notificacion["🔔 Servicio de notificaciones<br/>C#<br/><br/>Factory Method:<br/>FabricaDeCanalesDeAviso<br/><br/>Crea el canal según<br/>preferencia del cliente"]
     end
     ServicioExterno["📧 Servicio de correo/SMS<br/>(externo)"]
     Operador --> Web
