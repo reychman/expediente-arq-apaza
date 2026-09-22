@@ -9,6 +9,18 @@ public interface INotificadorPedido
 {
     void Enviar(string mensaje);
 }
+public class GestorDePedidos
+{
+    private readonly IRepositorioPedidos _repositorio;
+    private readonly INotificadorPedido _notificador;
+    public GestorDePedidos(
+        IRepositorioPedidos repositorio,
+        INotificadorPedido notificador)
+    {
+        _repositorio = repositorio;
+        _notificador = notificador;
+    }
+}
 public class BaseDeDatosComedor : IRepositorioPedidos
 {
     public void GuardarPedido(string estudiante, string menu, int cantidad, decimal total)
