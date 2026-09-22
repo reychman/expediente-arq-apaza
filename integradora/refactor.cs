@@ -51,8 +51,7 @@ public class BaseDeDatosComedor : IRepositorioPedidos
 }
 public class CorreoUniversitario : INotificadorPedido
 {
-    public void Enviar(string mensaje)
-        => Console.WriteLine($"[CORREO] {mensaje}");
+    public void Enviar(string mensaje) => Console.WriteLine($"[CORREO] {mensaje}");
 }
 public static class Demo
 {
