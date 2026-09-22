@@ -13,12 +13,35 @@ public class GestorDePedidos
 {
     private readonly IRepositorioPedidos _repositorio;
     private readonly INotificadorPedido _notificador;
-    public GestorDePedidos(
-        IRepositorioPedidos repositorio,
-        INotificadorPedido notificador)
+    public GestorDePedidos(IRepositorioPedidos repositorio, INotificadorPedido notificador)
     {
         _repositorio = repositorio;
         _notificador = notificador;
+    }
+    public void ProcesarPedido(string estudiante, string tipoMenu, int cantidad)
+    {
+        decimal precioBase;
+        switch (tipoMenu)
+        {
+            case "estandar":
+                precioBase = 12;
+                break;
+            case "vegetariano":
+                precioBase = 14;
+                break;
+            case "beca":
+                precioBase = 5;
+                break;
+            default:
+                precioBase = 12;
+                break;
+        }
+        decimal total = precioBase * cantidad;
+        _repositorio.GuardarPedido(estudiante, tipoMenu, cantidad, total);
+        Console.WriteLine("----- VALE DE COMEDOR -----");
+        Console.WriteLine($"{estudiante}: {cantidad} x menú {tipoMenu}");
+        Console.WriteLine($"TOTAL: {total:0.00} Bs");
+        _notificador.Enviar($"Pedido registrado: {cantidad} x {tipoMenu}, {estudiante}");
     }
 }
 public class BaseDeDatosComedor : IRepositorioPedidos
@@ -30,4 +53,12 @@ public class CorreoUniversitario : INotificadorPedido
 {
     public void Enviar(string mensaje)
         => Console.WriteLine($"[CORREO] {mensaje}");
+}
+public static class Demo
+{
+    public static void Correr()
+    {
+        var gestor = new GestorDePedidos(new BaseDeDatosComedor(), new CorreoUniversitario());
+        gestor.ProcesarPedido("Noelia", "vegetariano", 2);
+    }
 }
