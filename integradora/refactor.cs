@@ -14,3 +14,8 @@ public class BaseDeDatosComedor : IRepositorioPedidos
     public void GuardarPedido(string estudiante, string menu, int cantidad, decimal total)
         => Console.WriteLine($"[BD] INSERT INTO pedidos VALUES ('{estudiante}', '{menu}', {cantidad}, {total})");
 }
+public class CorreoUniversitario : INotificadorPedido
+{
+    public void Enviar(string mensaje)
+        => Console.WriteLine($"[CORREO] {mensaje}");
+}
