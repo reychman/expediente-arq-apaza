@@ -1,5 +1,4 @@
 using System;
-
 public class Cliente
 {
     public int IdCliente { get; set; }
@@ -14,7 +13,10 @@ public class Cuota
     public DateTime FechaVencimiento { get; set; }
     public decimal Monto { get; set; }
     public string Estado { get; set; } = "vigente";
-    public void CambiarEstado(string nuevoEstado) { Estado = nuevoEstado; }
+    public void CambiarEstado(string nuevoEstado)
+    {
+        Estado = nuevoEstado;
+    }
 }
 
 // INICIO PATRÓN STRATEGY
@@ -25,28 +27,37 @@ public interface IReglaMora
 
 public class ReglaMoraNormal : IReglaMora
 {
+    private const decimal TasaDeInteresMoratorio = 0.03m;
+    private const int DiasDeGracia = 5;
+
     public decimal Calcular(decimal montoBase, int diasAtraso)
     {
-        int diasCobrables = Math.Max(0, diasAtraso - 5);
-        return montoBase * 0.03m * diasCobrables;
+        int diasCobrables = Math.Max(0, diasAtraso - DiasDeGracia);
+        return montoBase * TasaDeInteresMoratorio * diasCobrables;
     }
 }
 
 public class ReglaMoraPreferencial : IReglaMora
 {
+    private const decimal TasaDeInteresMoratorio = 0.015m;
+    private const int DiasDeGracia = 10;
+
     public decimal Calcular(decimal montoBase, int diasAtraso)
     {
-        int diasCobrables = Math.Max(0, diasAtraso - 10);
-        return montoBase * 0.015m * diasCobrables;
+        int diasCobrables = Math.Max(0, diasAtraso - DiasDeGracia);
+        return montoBase * TasaDeInteresMoratorio * diasCobrables;
     }
 }
 
 public class ReglaMoraCorporativa : IReglaMora
 {
+    private const decimal TasaDeInteresMoratorio = 0.02m;
+    private const int DiasDeGracia = 3;
+
     public decimal Calcular(decimal montoBase, int diasAtraso)
     {
-        int diasCobrables = Math.Max(0, diasAtraso - 3);
-        return montoBase * 0.02m * diasCobrables;
+        int diasCobrables = Math.Max(0, diasAtraso - DiasDeGracia);
+        return montoBase * TasaDeInteresMoratorio * diasCobrables;
     }
 }
 
@@ -54,6 +65,7 @@ public class CalculoDeMora
 {
     public int IdCalculo { get; set; }
     public int DiasAtraso { get; set; }
+
     private readonly IReglaMora _regla;
 
     public CalculoDeMora(IReglaMora regla)
@@ -62,10 +74,11 @@ public class CalculoDeMora
     }
 
     public decimal CalcularMora(decimal montoBase, int diasAtraso)
-        => _regla.Calcular(montoBase, diasAtraso);
+    {
+        return _regla.Calcular(montoBase, diasAtraso);
+    }
 }
 // FIN PATRÓN STRATEGY
-
 public class EnlaceDePago
 {
     public int IdEnlace { get; set; }
@@ -103,7 +116,7 @@ public static class DemoBase
 {
     public static void Correr()
     {
-        Console.WriteLine("=======Patron STRATEGY==========");
+        Console.WriteLine("==========STRATEGY==========");
         var cliente = new Cliente { IdCliente = 1, Nombre = "Noelia Paz", Documento = "9871234", Plan = "Plan Salud" };
         var cuota = new Cuota { IdCuota = 10, FechaVencimiento = DateTime.Now.AddDays(-12), Monto = 350.00m, Estado = "vencida" };
 
@@ -128,8 +141,7 @@ public static class DemoBase
         Console.WriteLine($"[PAGO] {pago.IdPago} registrado — cuota {cuota.IdCuota} ahora esta {cuota.Estado}");
     }
 }
-
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {
