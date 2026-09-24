@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 public class Cliente
 {
     public int IdCliente { get; set; }
@@ -9,11 +10,6 @@ public class Cliente
 }
 
 // INICIO PATRÓN OBSERVER
-
-public interface IObservadorCuota
-{
-    void EnviarAviso();
-}
 public interface ICanalDeAviso
 {
     void Enviar(string mensaje);
@@ -34,7 +30,7 @@ public class CanalSms : ICanalDeAviso
         Console.WriteLine($"[SMS] {mensaje}");
     }
 }
-public class Notificacion : IObservadorCuota
+public class Notificacion
 {
     public int IdNotificacion { get; set; }
     public string Mensaje { get; set; } = "";
@@ -67,9 +63,9 @@ public class Cuota
     public decimal Monto { get; set; }
     public string Estado { get; private set; } = "vigente";
 
-    private readonly List<IObservadorCuota> _observadores = new List<IObservadorCuota>();
+    private readonly List<Notificacion> _observadores = new List<Notificacion>();
 
-    public void Suscribir(IObservadorCuota obs)
+    public void Suscribir(Notificacion obs)
     {
         _observadores.Add(obs);
     }
@@ -82,7 +78,7 @@ public class Cuota
 
         if (nuevoEstado == "en mora")
         {
-            var copia = new List<IObservadorCuota>(_observadores);
+            var copia = new List<Notificacion>(_observadores);
             foreach (var obs in copia)
             {
                 try
@@ -98,7 +94,6 @@ public class Cuota
     }
 }
 // FIN PATRÓN OBSERVER
-
 public class CalculoDeMora
 {
     private const decimal TasaDeInteresMoratorio = 0.03m;
