@@ -1,5 +1,5 @@
 Parte A Nivel 1: Contexto (el sistema y su mundo)
-mis primeros actores son los que defini en m i RF4(Operador, supervisor) mas mi cliente que recibe avisos y paga
+mis primeros actores son los que defini en mi RF4 (Operador, supervisor) mas mi cliente que recibe avisos y paga
 y los externos son la pasarela de pagos y mi canal de notificaciones
 
 ```mermaid
@@ -17,23 +17,27 @@ flowchart TD
     Panel -->|cobra en línea| Pasarela
     Cliente -->|paga| Pasarela
 ```
+
 Parte A Nivel 2 contenedores (el zoom adentro del sistema)
-Aqui muestro el zoom adentro, con el patron factory  que llegarian a ser mis canales de aviso.
+Aqui muestro el zoom adentro, con los dos patrones que use: Strategy para el calculo de mora y Observer para avisar cuando una cuota cambia de estado.
+
 ```mermaid
 flowchart TD
     Operador["👤 Operador"]
     Supervisor["👤 Supervisor"]
     subgraph Sistema["💳 PANEL DE MORA Y ENLACES DE PAGO"]
         Web["🌐 Aplicación web<br/>C# / ASP.NET<br/><br/>Pantallas de generación<br/>de enlaces y condonación"]
-        Logica["⚙️ Lógica de negocio<br/>C#<br/><br/>Cálculo de mora, cuotas,<br/>enlaces<br/><br/>(SOLID y patrones)"]
+        Logica["⚙️ Lógica de negocio<br/>C#<br/><br/>Strategy:<br/>IReglaMora (Normal,<br/>Preferencial, Corporativa)<br/><br/>Calcula la mora según<br/>el plan del cliente"]
         BD[("🗄️ Base de datos<br/>SQL<br/><br/>Clientes, cuotas, pagos")]
-        Notificacion["🔔 Servicio de notificaciones<br/>C#<br/><br/>Factory Method:<br/>FabricaDeCanalesDeAviso<br/><br/>Crea el canal según<br/>preferencia del cliente"]
+        Cuota["🔔 Cuota<br/>C#<br/><br/>Observer:<br/>notifica a sus observadores<br/>al cambiar de estado"]
+        Notificacion["📣 Observadores de Cuota<br/>C#<br/><br/>NotificadorCliente<br/>AuditoriaCuota"]
     end
     ServicioExterno["📧 Servicio de correo/SMS<br/>(externo)"]
     Operador --> Web
     Supervisor --> Web
     Web --> Logica
     Logica --> BD
-    Logica -->|cuota entra en mora| Notificacion
-    Notificacion --> ServicioExterno
+    Logica -->|calcula mora con| Cuota
+    Cuota -->|cambia de estado y avisa| Notificacion
+    Notificacion -->|manda el aviso| ServicioExterno
 ```
