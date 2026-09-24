@@ -9,9 +9,10 @@ public class Cliente
 }
 
 // INICIO PATRÓN OBSERVER
+
 public interface IObservadorCuota
 {
-    void AlEntrarEnMora(Cuota cuota, Cliente cliente);
+    void EnviarAviso();
 }
 public interface ICanalDeAviso
 {
@@ -33,7 +34,6 @@ public class CanalSms : ICanalDeAviso
         Console.WriteLine($"[SMS] {mensaje}");
     }
 }
-
 public class Notificacion : IObservadorCuota
 {
     public int IdNotificacion { get; set; }
@@ -41,23 +41,21 @@ public class Notificacion : IObservadorCuota
     public DateTime FechaEnvio { get; set; }
 
     private readonly ICanalDeAviso _canal;
+    private readonly Cliente _cliente;
+    private readonly Cuota _cuota;
 
-    public Notificacion(ICanalDeAviso canal)
+    public Notificacion(ICanalDeAviso canal, Cliente cliente, Cuota cuota)
     {
         _canal = canal ?? throw new ArgumentNullException(nameof(canal));
+        _cliente = cliente;
+        _cuota = cuota;
     }
-
-    public void AlEntrarEnMora(Cuota cuota, Cliente cliente)
+    public void EnviarAviso()
     {
         IdNotificacion = new Random().Next(1000, 9999);
         FechaEnvio = DateTime.Now;
-        Mensaje = $"Estimado {cliente.Nombre}, su cuota {cuota.IdCuota} entró en mora. " +
-                  $"Monto: {cuota.Monto:0.00} Bs";
-        EnviarAviso();
-    }
-
-    public void EnviarAviso()
-    {
+        Mensaje = $"Estimado {_cliente.Nombre}, su cuota {_cuota.IdCuota} entró en mora. " +
+                  $"Monto: {_cuota.Monto:0.00} Bs";
         _canal.Enviar(Mensaje);
     }
 }
@@ -76,11 +74,10 @@ public class Cuota
         _observadores.Add(obs);
     }
 
-    public void CambiarEstado(string nuevoEstado, Cliente cliente)
+    public void CambiarEstado(string nuevoEstado)
     {
         if (nuevoEstado == Estado) return;
 
-        string anterior = Estado;
         Estado = nuevoEstado;
 
         if (nuevoEstado == "en mora")
@@ -90,7 +87,7 @@ public class Cuota
             {
                 try
                 {
-                    obs.AlEntrarEnMora(this, cliente);
+                    obs.EnviarAviso();
                 }
                 catch (Exception ex)
                 {
@@ -101,6 +98,7 @@ public class Cuota
     }
 }
 // FIN PATRÓN OBSERVER
+
 public class CalculoDeMora
 {
     private const decimal TasaDeInteresMoratorio = 0.03m;
@@ -152,25 +150,25 @@ public static class DemoBase
 {
     public static void Correr()
     {
-        Console.WriteLine("==========OBSERVER==========");
+        Console.WriteLine("======OBSERVER========");
         var cliente = new Cliente { IdCliente = 1, Nombre = "Noelia Paz", Documento = "9871234", Plan = "Plan Salud" };
         var cuota = new Cuota { IdCuota = 10, FechaVencimiento = DateTime.Now.AddDays(-12), Monto = 350.00m };
 
-        cuota.Suscribir(new Notificacion(new CanalEmail()));
-        cuota.Suscribir(new Notificacion(new CanalSms()));
+        cuota.Suscribir(new Notificacion(new CanalEmail(), cliente, cuota));
+        cuota.Suscribir(new Notificacion(new CanalSms(), cliente, cuota));
 
         var calculo = new CalculoDeMora { IdCalculo = 1, DiasAtraso = 12 };
         decimal mora = calculo.CalcularMora(cuota.Monto, calculo.DiasAtraso);
         Console.WriteLine($"[MORA] Cliente {cliente.Nombre} — cuota {cuota.IdCuota} — mora: {mora:0.00} Bs");
 
-        cuota.CambiarEstado("en mora", cliente);
+        cuota.CambiarEstado("en mora");
 
         var enlace = new EnlaceDePago { MontoTotal = cuota.Monto + mora };
         string url = enlace.GenerarEnlace("tarjeta");
         Console.WriteLine($"[ENLACE] {url} — por {enlace.MontoTotal:0.00} Bs");
 
         var pago = new Pago { IdPago = 1, FechaPago = DateTime.Now, MontoPagado = enlace.MontoTotal, MetodoPago = "tarjeta" };
-        cuota.CambiarEstado("pagada", cliente);
+        cuota.CambiarEstado("pagada");
         Console.WriteLine($"[PAGO] {pago.IdPago} registrado — cuota {cuota.IdCuota} ahora esta {cuota.Estado}");
     }
 }
@@ -180,6 +178,5 @@ public class Program
     public static void Main(string[] args)
     {
         DemoBase.Correr();
-        Console.ReadKey();
     }
 }
