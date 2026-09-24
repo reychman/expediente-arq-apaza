@@ -1,8 +1,28 @@
-EL CASO DEL PROYECTO — EXPEDIENTE DE
-ARQUITECTURA
+# expediente-arq-apaza
+Apaza Carballo Reychman Cristopher
+VARIANTE 2 · COBRANZA — "Panel de mora y enlaces de pago" 💳
 
+Problema crítico: el sistema calcula la mora y genera enlaces de pago.
+    Un error en el cálculo del monto o un enlace manipulable puede provocar un cobro incorrecto,
+    por lo que la arquitectura debe priorizar la fiabilidad del cálculo y la seguridad del enlace.
+
+Rubro de origen: quienes trabajan en cobranza (mora, enlaces de pago a clientes).
+    Contexto: una empresa de servicios cobra cuotas mensuales. El panel calcula la mora de cada cliente,
+    genera enlaces de pago y registra los pagos que llegan. Un enlace con monto equivocado es plata mal
+    cobrada a gente real.
+
+Entidades candidatas: Cliente, Cuota, CálculoDeMora, EnlaceDePago, Pago.
+
+Aterrizaje de los RF: RF1 registrar cliente con su plan de cuotas · RF2 buscar clientes por estado de
+deuda · RF3 estados de la cuota: vigente → vencida → en mora → pagada · RF4 operador genera
+enlaces, supervisor condona mora · RF5 aviso al cliente cuando su cuota entra en mora · RF6 reporte de cartera:
+total al día, en mora, recuperado.
+
+Atributos críticos sugeridos: idoneidad funcional (el cálculo NO puede estar mal) y seguridad (el
+enlace no puede ser manipulable). ¿Dónde queda la usabilidad? Discutilo.
+
+EL CASO DEL PROYECTO — EXPEDIENTE DE ARQUITECTURA
 Arquitectura de Software · UAB · Gestión 2026-2 · Ing. Josue Chura
-Se publica: jueves 27-ago-2026 (c3) · Se trabaja TODO el mes · Se defiende: jueves 24-sep (c15)
 
 LA CONSIGNA MADRE (común a todas las variantes)
 Vas a construir, clase a clase, el expediente de arquitectura de un sistema. No vas a programar el
@@ -35,20 +55,3 @@ cerrado) con reglas de transición.
 Con esos 6 se puede ejercitar TODO el curso: clases y relaciones (c3), SOLID (c4-c6), patrones
 (Factory para crear según tipo, Strategy para reglas por rol, Observer para notificaciones,
 Adapter para integrar lo externo, Singleton/Builder donde corresponda), C4 y ADR (c12-c13).
-
-VARIANTE 2 · COBRANZA — "Panel de mora y enlaces de pago" 💳
-Rubro de origen: quienes trabajan en cobranza (mora, enlaces de pago a clientes).
-Contexto: una empresa de servicios cobra cuotas mensuales. El panel calcula la mora de cada cliente,
-genera enlaces de pago y registra los pagos que llegan. Un enlace con monto equivocado es plata mal
-cobrada a gente real.
-Entidades candidatas: Cliente, Cuota, CálculoDeMora, EnlaceDePago, Pago.
-Aterrizaje de los RF: RF1 registrar cliente con su plan de cuotas · RF2 buscar clientes por estado de
-deuda · RF3 estados de la cuota: vigente → vencida → en mora → pagada · RF4 operador genera
-enlaces,
-supervisor condona mora · RF5 aviso al cliente cuando su cuota entra en mora · RF6 reporte de cartera:
-total al día, en mora, recuperado.
-Atributos críticos sugeridos: idoneidad funcional (el cálculo NO puede estar mal) y seguridad (el
-enlace no puede ser manipulable). ¿Dónde queda la usabilidad? Discutilo.
-# expediente-arq-apaza
-Apaza Carballo Reychman Cristopher
-VARIANTE 2: Panel de mora y enlaces de pago
