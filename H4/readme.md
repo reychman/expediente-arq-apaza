@@ -30,7 +30,7 @@ flowchart TD
         Logica["⚙️ Lógica de negocio<br/>C#<br/><br/>Strategy:<br/>IReglaMora (Normal,<br/>Preferencial, Corporativa)<br/><br/>Calcula la mora según<br/>el plan del cliente"]
         BD[("🗄️ Base de datos<br/>SQL<br/><br/>Clientes, cuotas, pagos")]
         Cuota["🔔 Cuota<br/>C#<br/><br/>Observer:<br/>notifica a sus observadores<br/>al cambiar de estado"]
-        Notificacion["📣 Observadores de Cuota<br/>C#<br/><br/>NotificadorCliente<br/>AuditoriaCuota"]
+        Notificacion["📣 Notificacion<br/>C#<br/><br/>observador de Cuota,<br/>recibe un ICanalDeAviso<br/>por constructor<br/><br/>una instancia con<br/>CanalEmail y otra<br/>con CanalSms"]
     end
     ServicioExterno["📧 Servicio de correo/SMS<br/>(externo)"]
     Operador --> Web
