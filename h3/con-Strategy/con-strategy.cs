@@ -1,4 +1,5 @@
 using System;
+
 public class Cliente
 {
     public int IdCliente { get; set; }
@@ -13,6 +14,7 @@ public class Cuota
     public DateTime FechaVencimiento { get; set; }
     public decimal Monto { get; set; }
     public string Estado { get; set; } = "vigente";
+
     public void CambiarEstado(string nuevoEstado)
     {
         Estado = nuevoEstado;
@@ -79,6 +81,7 @@ public class CalculoDeMora
     }
 }
 // FIN PATRÓN STRATEGY
+
 public class EnlaceDePago
 {
     public int IdEnlace { get; set; }
@@ -116,7 +119,7 @@ public static class DemoBase
 {
     public static void Correr()
     {
-        Console.WriteLine("==========STRATEGY==========");
+        Console.WriteLine("======STRATEGY========");
         var cliente = new Cliente { IdCliente = 1, Nombre = "Noelia Paz", Documento = "9871234", Plan = "Plan Salud" };
         var cuota = new Cuota { IdCuota = 10, FechaVencimiento = DateTime.Now.AddDays(-12), Monto = 350.00m, Estado = "vencida" };
 
@@ -141,11 +144,11 @@ public static class DemoBase
         Console.WriteLine($"[PAGO] {pago.IdPago} registrado — cuota {cuota.IdCuota} ahora esta {cuota.Estado}");
     }
 }
+
 public class Program
 {
     public static void Main(string[] args)
     {
         DemoBase.Correr();
-        Console.ReadKey();
     }
 }
