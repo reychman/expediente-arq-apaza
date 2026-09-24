@@ -37,8 +37,7 @@ public class CalculoDeMora
                 diasAtraso - DiasDeGracia);
 
         return montoBase *
-               TasaDeInteresMoratorio *
-               diasCobrables;
+               TasaDeInteresMoratorio * diasCobrables;
     }
 }
 
@@ -60,19 +59,11 @@ public class EnlaceDePago
 
         Url = metodoPago switch
         {
-            "tarjeta" =>
-                $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}",
-
-            "transferencia" =>
-                $"https://pagos.miempresa.bo/transferencia/{IdEnlace}",
-
-            "qr" =>
-                $"https://pagos.miempresa.bo/qr/{IdEnlace}",
-
-            _ => throw new ArgumentException(
-                $"Metodo de pago desconocido: {metodoPago}")
+            "tarjeta" => $"https://pagos.miempresa.bo/tarjeta/{IdEnlace}",
+            "transferencia" => $"https://pagos.miempresa.bo/transferencia/{IdEnlace}",
+            "qr" => $"https://pagos.miempresa.bo/qr/{IdEnlace}",
+            _ => throw new ArgumentException($"Metodo de pago desconocido: {metodoPago}")
         };
-
         return Url;
     }
 }
@@ -85,19 +76,13 @@ public class Pago
     public string MetodoPago { get; set; } = "";
 }
 
-
 // INICIO DEL PATRÓN ADAPTER
-
-//Interfaz que nuestro sistema espera utilizar.
 
 public interface IPasarelaDePago
 {
     string GenerarLink(decimal monto);
-
     bool ConfirmarPago(string idEnlace);
 }
-
-
 /*
 Servicio externo.
 Esta clase representa una pasarela bancaria
@@ -120,16 +105,13 @@ public class PasarelaBanco
         {
             return "RECHAZADO";
         }
-
         if (codigoDeTransaccion.Contains("ERR"))
         {
             return "EN_REVISION";
         }
-
         return "APROBADO";
     }
 }
-
 
 /*
 Adapter.
